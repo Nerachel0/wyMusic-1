@@ -1,43 +1,70 @@
 <template>
 	<view class="search">
-		<musichead title="搜索" :icon="true" :iconBlack="true"></musichead>
-		<view class="container">
-			<scroll-view scroll-y="true">
+		<view>
+			<view class="box">
+				<musichead></musichead>
 				<view class="search-search">
-					<text class="iconfont iconsearch"></text>
-					<input type="text" placeholder="搜索歌曲" v-model="searchWord" @confirm="handleToSearch"
+					<text class="iconfont iconsearch box"></text>
+					<input class="" type="text" placeholder="搜索歌曲" v-model="searchWord" @confirm="handleToSearch "
 						@input="handleToSuggest" />
 					<text v-show="searchType == 2" @tap="handleToClose" class="iconfont iconguanbi"></text>
 				</view>
+			</view>
+		</view>
+		<view class="container" style="">
+			<scroll-view scroll-y="true">
 				<block v-if="searchType == 1">
 					<view class="search-history">
 						<view class="search-history-head">
-							<text>历史记录</text>
+							<text>历史</text>
 							<text class="iconfont iconlajitong" @tap="handleToClear"></text>
 						</view>
 						<view class="search-history-list">
-							<view v-for="(item,index) in historyList" :key="index" @tap="handleToWord(item)">{{ item }}
+							<view class="tb-js-yf-style" v-for="(item,index) in historyList" :key="index"
+								@tap="handleToWord(item)">{{ item }}
 							</view>
 						</view>
 					</view>
+					<!-- <view class="box"> -->
+						<!-- <view style="background-color: #3e6694;">11</view> -->
+						<!-- <view style="background-color: #537caa;">22</view> -->
+					<!-- </view> -->
 					<view class="search-hot">
-						<view class="search-hot-title">热搜榜</view>
-						<view class="search-hot-item" v-for="(item,index) in searchHot" :key="index"
-							@tap="handleToWord(item.searchWord)">
-							<view class="search-hot-top">{{ index + 1 }}</view>
-							<view class="search-hot-word">
-								<view>
-									{{ item.searchWord }}
-									<image :src="item.iconType ? item.iconUrl : ''" mode="aspectFit"></image>
+						<view class="search-hot-title tb">热搜榜</view>
+						<view class="box">
+							<view class="music-list-view">
+								<view  v-if="index <= 9" class="search-hot-item" style="font-size: 10px;" v-for="(item,index) in searchHot"
+									:key="index" @tap="handleToWord(item.searchWord)">
+									<view  class="search-hot-top" style="font-size: 8px;">{{ index + 1 }}</view>
+									<view class="search-hot-word">
+										<view style="font-size: 8px;">
+											{{ item.searchWord }}
+											<image :src="item.iconType ? item.iconUrl : ''" mode="aspectFit"></image>
+										</view>
+									</view>
+									<text class="search-hot-count">{{ item.score }}</text>
 								</view>
-								<view>{{ item.content }}</view>
 							</view>
-							<text class="search-hot-count">{{ item.score }}</text>
+							<view class="music-list-view">
+								<view v-if="index >= 10" class="search-hot-item" style="font-size: 10px;" v-for="(item,index) in searchHot"
+									:key="index" @tap="handleToWord(item.searchWord)">
+									<view  class="search-hot-top" style="font-size: 8px;">{{ index + 1 }}</view>
+									<view  class="search-hot-word">
+										<view style="font-size: 8px;">
+											{{ item.searchWord }}
+											<image :src="item.iconType ? item.iconUrl : ''" mode="aspectFit"></image>
+										</view>
+										<!-- <view>{{ item.content }}</view> -->
+									</view>
+									<text  class="search-hot-count">{{ item.score }}</text>
+								</view>
+							</view>
 						</view>
+						<!-- <view style="background-color:#bebebe">121212121</view> -->
 					</view>
 				</block>
 				<block v-else-if="searchType == 2">
-					<view class="search-result">
+					<view class="search-result ">
 						<view class="search-result-item" v-for="(item,index) in searchList" :key="index"
 							@tap="handleToDetail(item.id)">
 							<view class="search-result-word">
@@ -70,6 +97,7 @@
 		searchSuggest
 	} from '../../common/api.js'
 	import '../../common/iconfont.css'
+	// import '../../pages/plugins/scroll.vue'
 	export default {
 		data() {
 			return {
@@ -78,7 +106,11 @@
 				historyList: [],
 				searchType: 1,
 				searchList: [],
-				suggestList: []
+				suggestList: [],
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				}
 			}
 		},
 		onLoad() {
@@ -95,6 +127,7 @@
 			});
 		},
 		methods: {
+
 			handleToSearch() {
 				this.historyList.unshift(this.searchWord);
 				this.historyList = [...new Set(this.historyList)];
@@ -153,13 +186,30 @@
 	}
 </script>
 
+
 <style scoped>
+	.music-list-view {
+		/* background-color: #e5e5e5; */
+		/* margin: 7px 7px 5px 2px; */
+		margin:auto;
+		padding: 1em;
+	}
+
+	.tb-js-yf-style {
+		font: 12px/1 Tahoma, Helvetica, Arial, ”\5b8b\4f53”, sans-serif;
+	}
+
+	.box {
+		display: flex;
+	}
+
 	.search-search {
 		display: flex;
 		background: #f7f7f7;
-		height: 73rpx;
+		height: 90rpx;
 		margin: 28rpx 30rpx 30rpx 30rpx;
 		border-radius: 50rpx;
+		width: 800px;
 		align-items: center;
 	}
 
@@ -184,8 +234,9 @@
 
 	.search-history-list {
 		display: flex;
-		margin-top: 36rpx;
+		margin-top: 25rpx;
 		flex-wrap: wrap;
+
 	}
 
 	.search-history-list view {
@@ -218,6 +269,7 @@
 
 	.search-hot-word {
 		flex: 1;
+		/* font-size: 15rpx; */
 	}
 
 	.search-hot-word view:nth-child(1) {
@@ -233,8 +285,15 @@
 	.search-hot-count {}
 
 	.search-result {
-		border-top: 2rpx #e5e5e5 solid;
+		/* border-top:1px solid #000; */
+		/* border-top: 1rpx #e5e5e5 solid; */
+		/* background-color: #e5e5e5; */
+		/* border-radius: 18px; */
 		padding: 30rpx;
+		border-width: 1em;
+		margin: 10px 20px 20px;
+		/* width: 150px; */
+		
 	}
 
 	.search-result-item {

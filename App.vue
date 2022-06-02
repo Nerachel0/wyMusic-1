@@ -1,4 +1,5 @@
 <script>
+	// import '../../common/iconfont.css'
 	export default {
 
 	}
@@ -10,6 +11,7 @@
 		width: 100%;
 		height: calc(100vh - 75px);
 		overflow: hidden;
+		/* background-color: #e5e5e5; */
 	}
 
 	.container scroll-view {

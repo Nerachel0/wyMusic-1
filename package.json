@@ -1,0 +1,19 @@
+{
+  "name": "wymusic",
+  "version": "1.0.0",
+  "description": "uni-app仿网易云音乐小程序",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demesis/wyMusic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demesis/wyMusic/issues"
+  },
+  "homepage": "https://github.com/demesis/wyMusic#readme"
+}
